@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhotoCloud.Data;
 
 namespace PhotoCloud.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210511143649_wxtandedIdentityUser")]
+    partial class wxtandedIdentityUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,21 +156,6 @@ namespace PhotoCloud.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PhotoCloud.Models.AlbumModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("AlbumModel");
-                });
-
             modelBuilder.Entity("PhotoCloud.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -239,25 +226,17 @@ namespace PhotoCloud.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AlbumModelId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhotoName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("AlbumModelId");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("PhotoModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -311,33 +290,15 @@ namespace PhotoCloud.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhotoCloud.Models.AlbumModel", b =>
-                {
-                    b.HasOne("PhotoCloud.Models.ApplicationUser", null)
-                        .WithMany("Albums")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("PhotoCloud.Models.PhotoModel", b =>
                 {
-                    b.HasOne("PhotoCloud.Models.AlbumModel", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("AlbumModelId");
-
                     b.HasOne("PhotoCloud.Models.ApplicationUser", null)
                         .WithMany("Photos")
                         .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("PhotoCloud.Models.AlbumModel", b =>
-                {
-                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("PhotoCloud.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Albums");
-
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618

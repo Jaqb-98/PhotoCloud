@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhotoCloud.Data;
 
 namespace PhotoCloud.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210511143902_AlbumsTable")]
+    partial class AlbumsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,16 +250,13 @@ namespace PhotoCloud.Data.Migrations
                     b.Property<string>("PhotoName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumModelId");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("PhotoModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
