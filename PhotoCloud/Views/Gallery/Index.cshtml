@@ -1,0 +1,97 @@
+﻿@model GalleryViewModel
+
+@{
+
+}
+<link rel="stylesheet" href="~/css/GalleryStyle.css" />
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Photo Upload</h4>
+                <form asp-controller="Gallery" asp-action="UploadFiles"
+                      enctype="multipart/form-data" method="post">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                        <input type="file" multiple name="photos" class="form-control" id="inputGroupFile01" />
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section id="yourPhotos">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Your photos</h4>
+                <div id="lightgallery">
+
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <a href="/photos/@photo.PhotoName">
+                            <img src="/photos/@photo.PhotoName" class="img-fluid"/>
+                        </a>
+
+                    }
+
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</section>
+
+<section id="albums">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section scripts {
+    <script>
+        var UploadFiles = function (e) {
+            var files = e.target.files;
+            console.log(files);
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append("files", files[i]);
+            }
+            axios.post("/Gallery/UploadFiles", formData);
+        }
+
+    </script>
+
+
+    <script src="~/lib/lightGallery/src/js/lightgallery.min.js"></script>
+    <script src="~/lib/lightGallery/lib/jquery.mousewheel.min.js"></script>
+    <script src="~/lib/lightGallery/dist/js/lightgallery-all.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#lightgallery").lightGallery({
+                thumbnail: true,
+                rotate: true
+            });
+        });
+    </script>
+
+}
+
+
+
+
+
+
+
