@@ -11,6 +11,7 @@ using PhotoCloud.Services;
 using PhotoCloud.ViewModels;
 using PhotoCloud.Models;
 
+
 namespace PhotoCloud.Controllers
 {
     public class GalleryController : Controller
@@ -53,8 +54,8 @@ namespace PhotoCloud.Controllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     PhotoName = name,
-                    UploadDate =  DateTime.Now
-                }) ;
+                    UploadDate = DateTime.Now
+                });
             }
             _photoService.AddPhotos(userId, photoModels);
             return RedirectToAction("Index");
@@ -81,6 +82,11 @@ namespace PhotoCloud.Controllers
                 }
             }
             return photosNames;
+        }
+
+        public async Task<IActionResult> AddToAlbum(Guid[] selectedObjects)
+        {
+            return null;
         }
 
 
