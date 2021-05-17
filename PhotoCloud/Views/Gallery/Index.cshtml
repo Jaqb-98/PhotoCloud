@@ -1,16 +1,19 @@
 ﻿@model GalleryViewModel
 
 @{
-
+    bool selectable = true;
 }
 <link rel="stylesheet" href="~/css/GalleryStyle.css" />
 
-
-<section>
+<p>
+    <button class="btn btn-primary collapsible" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Upload pictures
+    </button>
+</p>
+<section class="collapse" id="collapseExample">
     <div class="container">
         <div class="row">
             <div class="col">
-                <h4>Photo Upload</h4>
                 <form asp-controller="Gallery" asp-action="UploadFiles"
                       enctype="multipart/form-data" method="post">
                     <div class="input-group mb-3">
@@ -25,27 +28,49 @@
 
 </section>
 
-<section id="yourPhotos">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h4>Your photos</h4>
-                <div id="lightgallery">
 
+
+
+<h4>Your photos</h4>
+<form asp-controller="Gallery" asp-action="AddToAlbum" enctype="multipart/form-data" method="post">
+    <section id="PhotosSection">
+        <div id="yourPhotos">
+            <div id="lightgallery">
+
+                @if (selectable)
+                {
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <div id="photoContainer">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selectedObjects" value="@photo.Id" id="flexCheckDefault">
+                            </div>
+
+                            <a href="/photos/@photo.PhotoName">
+                                <img src="/photos/@photo.PhotoName" />
+                            </a>
+                        </div>
+
+                    }
+                }
+                else
+                {
                     @foreach (var photo in Model.Photos)
                     {
                         <a href="/photos/@photo.PhotoName">
-                            <img src="/photos/@photo.PhotoName" class="img-fluid"/>
+                            <img src="/photos/@photo.PhotoName" />
                         </a>
-
                     }
-
-                </div>
+                }
             </div>
-            <div class="col"></div>
+
         </div>
-    </div>
-</section>
+    </section>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+
 
 <section id="albums">
     <div class="container">
@@ -73,16 +98,25 @@
 
     </script>
 
-
     <script src="~/lib/lightGallery/src/js/lightgallery.min.js"></script>
-    <script src="~/lib/lightGallery/lib/jquery.mousewheel.min.js"></script>
+    <script src="~/lib/lightGallery/modules/lg-thumbnail.js"></script>
     <script src="~/lib/lightGallery/dist/js/lightgallery-all.min.js"></script>
+    <script src="~/lib/lightGallery/lib/jquery.mousewheel.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
             $("#lightgallery").lightGallery({
                 thumbnail: true,
-                rotate: true
+                rotate: true,
+                selector: 'a'
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#aniimated-thumbnials').lightGallery({
+                thumbnail: true
             });
         });
     </script>
